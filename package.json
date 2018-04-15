@@ -2,6 +2,8 @@
   "name": "lempls-iracing-companion-client-ts",
   "version": "0.1.0",
   "private": true,
+  "main": "src/electron-starter.js",
+  "homepage": "./",
   "dependencies": {
     "classnames": "^2.2.5",
     "cross-env": "^5.1.4",
@@ -19,7 +21,9 @@
     "start": "cross-env BROWSER=none react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "eject": "react-scripts-ts eject",
+    "electron": "electron .",
+    "electron-dev": "cross-env ELECTRON_START_URL=http://localhost:3000 electron ."
   },
   "devDependencies": {
     "@types/classnames": "^2.2.3",
@@ -28,6 +32,7 @@
     "@types/react": "^16.3.10",
     "@types/react-dom": "^16.0.5",
     "@types/react-redux": "^5.0.16",
+    "electron": "^1.8.4",
     "prettier": "^1.12.0",
     "typescript": "^2.8.1"
   }
