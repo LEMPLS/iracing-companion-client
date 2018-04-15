@@ -1,0 +1,17 @@
+.Panel {
+  display: inline-grid;
+  text-align: center;
+  border: 1px solid white;
+}
+
+.Panel > .panel-title {
+  font-size: 5vw;
+}
+
+.Panel > .panel-value {
+  font-size: 12vw;
+}
+
+.Panel.warning {
+  background-color: red;
+}

@@ -1,0 +1,46 @@
+.CrossLineScreen {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto auto auto;
+  height: 100%;
+}
+
+.CrossLineScreen .wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  width: 100%;
+  height: 100%;
+}
+
+.CrossLineScreen .relative {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-column-start: 2;
+  font-size: 12vw;
+  line-height: 100%;
+}
+
+.CrossLineScreen .gap {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  grid-column-start: 3;
+  font-size: 6vw;
+}
+
+.CrossLineScreen .gain {
+  color: green;
+}
+
+.CrossLineScreen .lost {
+  color: red;
+}
+
+.CrossLineScreen .to-go {
+  font-size: 6vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
