@@ -1,6 +1,8 @@
-/node_modules
-/coverage
-/build
+/node_modules/
+/coverage/
+/build/
+/build_app/
+/dist/
 .DS_Store
 .env.local
 .env.development.local
