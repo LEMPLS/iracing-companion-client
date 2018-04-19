@@ -4,7 +4,7 @@ import './Panel.css';
 
 export interface DrivingScreenPanelProps {
   title: string;
-  value: string | number;
+  value?: string | number;
   className?: string;
 }
 

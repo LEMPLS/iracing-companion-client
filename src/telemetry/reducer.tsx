@@ -1,13 +1,18 @@
-import { TelemetryAction, TelemetryValues } from './actions';
-import { RootState } from '../rootReducer';
+import { LineCrossPayload, TelemetryAction, TelemetryPayload } from './actions';
 
 export interface TelemetryState {
-  readonly showLineCrossInfo: boolean;
-  readonly values: TelemetryValues;
+  readonly lineCross: {
+    show: boolean;
+    values: LineCrossPayload;
+  };
+  readonly values: TelemetryPayload;
 }
 
 const initialState: TelemetryState = {
-  showLineCrossInfo: false,
+  lineCross: {
+    show: false,
+    values: {},
+  },
   values: {},
 };
 
@@ -17,27 +22,55 @@ const reducer = (
 ) => {
   switch (action.type) {
     case 'LINE_CROSS_INFO_SHOW':
+      const { payload } = action;
+      const {
+        GapToAhead,
+        GainedToAhead,
+        GapToBehind,
+        GainedToBehind,
+      } = payload;
       return {
         ...state,
-        showLineCrossInfo: true,
+        lineCross: {
+          show: true,
+          values: {
+            GapToAhead,
+            GainedToAhead,
+            GapToBehind,
+            GainedToBehind,
+          },
+        },
       };
 
     case 'LINE_CROSS_INFO_HIDE': {
       return {
         ...state,
-        showLineCrossInfo: false,
+        lineCross: {
+          show: false,
+        },
       };
     }
 
     case 'TELEMETRY_UPDATE': {
       const { payload } = action;
-      const { SessionLapsRemain, LapsToPit } = payload;
+      const {
+        SessionLapsRemain,
+        LapsToPit,
+        WaterTemp,
+        OilTemp,
+        LapCompletedSincePit,
+        RaceLapsRemaining,
+      } = payload;
 
       return {
         ...state,
         values: {
           SessionLapsRemain,
           LapsToPit,
+          WaterTemp,
+          OilTemp,
+          LapCompletedSincePit,
+          RaceLapsRemaining,
         },
       };
     }
@@ -48,14 +81,3 @@ const reducer = (
 };
 
 export default reducer;
-
-// - selectors - //
-
-export const getTelemetryState = (state: RootState): TelemetryState =>
-  state.telemetry;
-
-export const getValues = (state: TelemetryState): TelemetryValues =>
-  state.values;
-
-export const showLineCrossInfo = (state: TelemetryState): boolean =>
-  state.showLineCrossInfo;

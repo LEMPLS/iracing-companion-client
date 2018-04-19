@@ -12,7 +12,7 @@ import {
   getTelemetryState,
   getValues,
   showLineCrossInfo,
-} from '../../telemetry/reducer';
+} from '../../telemetry/selectors';
 import { CrossLineScreen } from './CrossLineScreen/CrossLineScreen';
 import { DrivingScreen } from './DrivingScreen/DrivingScreen';
 
@@ -21,8 +21,8 @@ import './Dashboard.css';
 export interface DashboardProps {
   updateTelemetryValues: typeof telemetryActions.updateTelemetryValues;
   lineCross: typeof lineCross;
-  SessionLapsRemain: number,
-  LapsToPit: number,
+  SessionLapsRemain: number;
+  LapsToPit: number;
   showLineCrossInfo: boolean;
 }
 
@@ -47,9 +47,9 @@ class DashboardBase extends React.Component<DashboardProps, {}> {
     const { updateTelemetryValues, lineCross } = this.props;
 
     if (isTelemetryMessage(message)) {
-      updateTelemetryValues(message.values);
+      updateTelemetryValues(message.payload);
     } else if (isLineCrossMessage(message)) {
-      lineCross();
+      lineCross(message.payload);
     }
   }
 
@@ -57,17 +57,7 @@ class DashboardBase extends React.Component<DashboardProps, {}> {
     const { showLineCrossInfo } = this.props;
     return (
       <div className="Dashboard">
-        {showLineCrossInfo ? (
-          <CrossLineScreen
-            gainedToAhead={0.24}
-            gapToAhead={3.24}
-            gainedToBehind={-0.34}
-            gapToBehind={6.24}
-            lapsToGo={5}
-          />
-        ) : (
-          <DrivingScreen />
-        )}
+        {showLineCrossInfo ? <CrossLineScreen /> : <DrivingScreen />}
       </div>
     );
   }

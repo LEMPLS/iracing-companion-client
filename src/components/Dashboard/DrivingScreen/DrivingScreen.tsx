@@ -2,37 +2,64 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import { connect } from 'react-redux';
 import { RootState } from '../../../rootReducer';
-import { getTelemetryState, getValues } from '../../../telemetry/reducer';
+import { getTelemetryState, getValues } from '../../../telemetry/selectors';
 import { Panel } from './Panel';
 
 import './DrivingScreen.css';
 
 export interface DrivingScreenProps {
-  LapsToPit: number;
+  LapsToPit?: number;
+  WaterTemp?: number;
+  OilTemp?: number;
+  LapCompletedSincePit?: number;
+  RaceLapsRemaining?: number;
 }
 
-const DrivingScreenBase: React.SFC<DrivingScreenProps> = ({ LapsToPit }) => (
+const DrivingScreenBase: React.SFC<DrivingScreenProps> = ({
+  LapsToPit,
+  WaterTemp,
+  OilTemp,
+  LapCompletedSincePit,
+  RaceLapsRemaining,
+}) => (
   <div className="DrivingScreen">
-    <Panel title="Since pit" value="5" />
+    <Panel
+      title="Since pit"
+      value={LapCompletedSincePit ? LapCompletedSincePit.toFixed(0) : '-'}
+    />
     <Panel
       title="To go"
-      value={LapsToPit}
-      className={classNames({ warning: LapsToPit === 0 })}
+      value={RaceLapsRemaining ? RaceLapsRemaining.toFixed(0) : '-'}
+      className={classNames({ warning: RaceLapsRemaining === 0 })}
     />
     <Panel
       title="Water"
-      value="180"
-      className={classNames({ warning: true })}
+      value={WaterTemp ? WaterTemp.toFixed(0) : '-'}
+      className={classNames({ warning: WaterTemp ? WaterTemp >= 130 : false })}
     />
-    <Panel title="Oil" value="200" />
+    <Panel
+      title="Oil"
+      value={OilTemp ? OilTemp.toFixed(0) : '-'}
+      className={classNames({ warning: OilTemp ? OilTemp >= 135 : false })}
+    />
   </div>
 );
 
 function mapStateToProps(state: RootState) {
   const telemetryState = getTelemetryState(state);
-  const { LapsToPit } = getValues(telemetryState);
+  const {
+    LapsToPit,
+    WaterTemp,
+    OilTemp,
+    LapCompletedSincePit,
+    RaceLapsRemaining,
+  } = getValues(telemetryState);
   return {
     LapsToPit,
+    WaterTemp,
+    OilTemp,
+    LapCompletedSincePit,
+    RaceLapsRemaining,
   };
 }
 

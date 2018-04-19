@@ -1,18 +1,26 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import { formatTime } from '../../util';
+import { formatRelativeTime } from '../../util';
 
 export interface RelativeTimeProps {
   value: number;
+  decimals?: number;
+  highlightGainedOrLost?: boolean;
+  className?: string;
 }
 
-export const RelativeTime: React.SFC<RelativeTimeProps> = ({ value }) => (
+export const RelativeTime: React.SFC<RelativeTimeProps> = ({
+  value,
+  decimals,
+  highlightGainedOrLost,
+  className,
+}) => (
   <span
-    className={classNames('relative', {
-      gain: value < 0,
-      lost: value > 0,
+    className={classNames('relative', className, {
+      gain: highlightGainedOrLost && value < 0,
+      lost: highlightGainedOrLost && value > 0,
     })}
   >
-    {formatTime(value)}
+    {formatRelativeTime(value, decimals)}
   </span>
 );

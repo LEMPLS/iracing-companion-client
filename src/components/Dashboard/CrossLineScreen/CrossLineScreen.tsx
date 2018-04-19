@@ -1,38 +1,90 @@
 import * as React from 'react';
-import { formatTime } from '../../../util';
 import { Panel } from '../Panel';
 import { RelativeTime } from '../RelativeTime';
+import { connect } from 'react-redux';
+import {
+  getLineCrossValues,
+  getTelemetryState,
+  getValues,
+  showLineCrossInfo,
+} from '../../../telemetry/selectors';
+import { lineCross, telemetryActions } from '../../../telemetry/actions';
+import { RootState } from '../../../rootReducer';
 
 import './CrossLineScreen.css';
 
 export interface CrossLineScreenProps {
-  gainedToAhead: number;
-  gapToAhead: number;
-  gainedToBehind: number;
-  gapToBehind: number;
-  lapsToGo: number;
+  GapToAhead?: number;
+  GainedToAhead?: number;
+  GapToBehind?: number;
+  GainedToBehind?: number;
+  RaceLapsRemaining?: number;
 }
 
-export const CrossLineScreen: React.SFC<CrossLineScreenProps> = ({
-  gainedToAhead,
-  gapToAhead,
-  gainedToBehind,
-  gapToBehind,
-  lapsToGo,
+const CrossLineScreenBase: React.SFC<CrossLineScreenProps> = ({
+  GapToAhead,
+  GainedToAhead,
+  GapToBehind,
+  GainedToBehind,
+  RaceLapsRemaining,
 }) => (
   <div className="CrossLineScreen">
     <Panel>
       <div className="wrapper">
-        <RelativeTime value={gainedToAhead} />
-        <span className="gap">({formatTime(gapToAhead)})</span>
+        {GainedToAhead ? (
+          <RelativeTime
+            value={GainedToAhead}
+            decimals={2}
+            highlightGainedOrLost={true}
+          />
+        ) : (
+          <div className="relative">-</div>
+        )}
+        {GapToAhead ? (
+          <RelativeTime className="gap" value={GapToAhead} decimals={1} />
+        ) : (
+          <div className="gap">-</div>
+        )}
       </div>
     </Panel>
     <Panel>
       <div className="wrapper">
-        <RelativeTime value={gainedToBehind} />
-        <span className="gap">({formatTime(gapToBehind)})</span>
+        {GainedToBehind ? (
+          <RelativeTime value={GainedToBehind} highlightGainedOrLost={true} />
+        ) : (
+          <div className="relative">-</div>
+        )}
+        {GapToBehind ? (
+          <RelativeTime className="gap" value={GapToBehind} />
+        ) : (
+          <div className="gap">-</div>
+        )}
       </div>
     </Panel>
-    <Panel className="to-go">{lapsToGo} to go</Panel>
+    <Panel className="to-go">{RaceLapsRemaining} to go</Panel>
   </div>
 );
+
+function mapStateToProps(state: RootState) {
+  const telemetryState = getTelemetryState(state);
+  const {
+    GapToAhead,
+    GainedToAhead,
+    GapToBehind,
+    GainedToBehind,
+  } = getLineCrossValues(telemetryState);
+  const { RaceLapsRemaining } = getValues(telemetryState);
+  return {
+    GapToAhead,
+    GainedToAhead,
+    GapToBehind,
+    GainedToBehind,
+    RaceLapsRemaining,
+    showLineCrossInfo: showLineCrossInfo(telemetryState),
+  };
+}
+
+export const CrossLineScreen = connect(mapStateToProps, {
+  lineCross,
+  updateTelemetryValues: telemetryActions.updateTelemetryValues,
+})(CrossLineScreenBase);
