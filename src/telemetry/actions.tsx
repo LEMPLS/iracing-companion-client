@@ -1,4 +1,4 @@
-import { ActionsUnion, buildAction } from 'typesafe-actions';
+import { ActionType, createAction } from 'typesafe-actions';
 import { Action, ActionCreator, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../rootReducer';
@@ -20,22 +20,21 @@ export interface LineCrossPayload {
 }
 
 export const telemetryActions = {
-  showLineCrossInfo: buildAction('LINE_CROSS_INFO_SHOW').payload<
+  showLineCrossInfo: createAction('LINE_CROSS_INFO_SHOW')<
     LineCrossPayload
   >(),
-  hideLineCrossInfo: buildAction('LINE_CROSS_INFO_HIDE').empty(),
-  updateTelemetryValues: buildAction('TELEMETRY_UPDATE').payload<
+  hideLineCrossInfo: createAction('LINE_CROSS_INFO_HIDE')(),
+  updateTelemetryValues: createAction('TELEMETRY_UPDATE')<
     TelemetryPayload
   >(),
 };
 
-export const lineCross: ActionCreator<ThunkAction<Action, RootState, void>> = (
+export const lineCross: ActionCreator<ThunkAction<any, RootState, undefined, Action>> = (
   payload: LineCrossPayload,
-) => {
-  return (dispatch: Dispatch<RootState>): Action => {
-    setTimeout(() => dispatch(telemetryActions.hideLineCrossInfo()), 3000);
+) =>
+  (dispatch: Dispatch): Action => {
+    setTimeout (() => dispatch(telemetryActions.hideLineCrossInfo()), 3000);
     return dispatch(telemetryActions.showLineCrossInfo(payload));
   };
-};
 
-export type TelemetryAction = ActionsUnion<typeof telemetryActions>;
+export type TelemetryAction = ActionType<typeof telemetryActions>;
