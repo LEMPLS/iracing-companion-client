@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import { formatRelativeTime } from '../../util';
 
 export interface RelativeTimeProps {
@@ -9,7 +9,7 @@ export interface RelativeTimeProps {
   className?: string;
 }
 
-export const RelativeTime: React.SFC<RelativeTimeProps> = ({
+export const RelativeTime: React.FC<RelativeTimeProps> = ({
   value,
   decimals,
   highlightGainedOrLost,

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 
 import './Panel.css';
 
@@ -8,6 +8,6 @@ export interface PanelProps {
   children: any;
 }
 
-export const Panel: React.SFC<PanelProps> = ({ className, children }) => (
+export const Panel: React.FC<PanelProps> = ({ className, children }) => (
   <div className={classNames('Panel', className)}>{children}</div>
 );

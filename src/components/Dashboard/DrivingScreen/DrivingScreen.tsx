@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { RootState } from '../../../rootReducer';
 import { getTelemetryState, getValues } from '../../../telemetry/selectors';
@@ -15,7 +15,7 @@ export interface DrivingScreenProps {
   RaceLapsRemaining?: number;
 }
 
-const DrivingScreenBase: React.SFC<DrivingScreenProps> = ({
+const DrivingScreenBase: React.FC<DrivingScreenProps> = ({
   LapsToPit,
   WaterTemp,
   OilTemp,

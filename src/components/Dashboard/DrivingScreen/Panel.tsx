@@ -8,7 +8,7 @@ export interface DrivingScreenPanelProps {
   className?: string;
 }
 
-export const Panel: React.SFC<DrivingScreenPanelProps> = ({
+export const Panel: React.FC<DrivingScreenPanelProps> = ({
   title,
   value,
   className,

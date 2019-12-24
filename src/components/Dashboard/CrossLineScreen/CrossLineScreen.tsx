@@ -21,7 +21,7 @@ export interface CrossLineScreenProps {
   RaceLapsRemaining?: number;
 }
 
-const CrossLineScreenBase: React.SFC<CrossLineScreenProps> = ({
+const CrossLineScreenBase: React.FC<CrossLineScreenProps> = ({
   GapToAhead,
   GainedToAhead,
   GapToBehind,

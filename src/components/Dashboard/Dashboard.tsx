@@ -21,8 +21,8 @@ import './Dashboard.css';
 export interface DashboardProps {
   updateTelemetryValues: typeof telemetryActions.updateTelemetryValues;
   lineCross: typeof lineCross;
-  SessionLapsRemain: number;
-  LapsToPit: number;
+  SessionLapsRemain?: number;
+  LapsToPit?: number;
   showLineCrossInfo: boolean;
 }
 
