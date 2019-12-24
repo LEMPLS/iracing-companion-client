@@ -46,6 +46,7 @@ const reducer = (
       return {
         ...state,
         lineCross: {
+          ...state.lineCross,
           show: false,
         },
       };
