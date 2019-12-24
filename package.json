@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "LEMPLS iRacing Companion Dashboard",
   "private": true,
-  "main": "src/electron-starter.js",
+  "main": "public/electron.js",
   "contributors": [
     "Martin Kapal",
     "Tomáš Korený"
@@ -17,12 +17,13 @@
     "eject": "react-scripts eject",
     "prettier": "prettier --write src/**/*.{ts,tsx}",
     "electron": "electron .",
-    "electron-dev": "cross-env ELECTRON_START_URL=http://localhost:3000 electron .",
+    "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
   },
   "dependencies": {
     "cross-env": "^6.0.3",
+    "electron-is-dev": "^1.1.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "sockette": "^2.0.6"
@@ -34,17 +35,25 @@
     "@types/node": "^13.1.0",
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
+    "concurrently": "^5.0.2",
+    "dotenv": "^8.2.0",
     "electron": "^7.1.7",
     "electron-builder": "^21.2.0",
     "npm-run-all": "^4.1.2",
     "prettier": "^1.12.0",
     "react-scripts": "^3.3.0",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.4",
+    "wait-on": "^3.3.0"
   },
   "build": {
+    "appId": "com.lempls.lirc",
     "productName": "LEMPLS iRacing Companion Dashboard",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
     "directories": {
-      "buildResources": "build_app"
+      "buildResources": "assets"
     },
     "win": {
       "artifactName": "LiRC-Dashboard.exe",

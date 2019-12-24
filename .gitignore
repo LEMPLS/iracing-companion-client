@@ -1,7 +1,6 @@
 /node_modules/
 /coverage/
 /build/
-/build_app/
 /dist/
 /.pnp
 .pnp.js
