@@ -9,7 +9,9 @@ export const DashboardContainer: FC = () => {
   const [rpm, setRpm] = useState(0);
 
   useEffect(() => {
-    new Sockette('ws://46.13.50.98:3001', {
+    const { SERVER_ADDRESS = 'localhost', SERVER_PORT = 3001 } = process.env;
+
+    new Sockette(`ws://${SERVER_ADDRESS}:${SERVER_PORT}`, {
       onopen: () => console.log('Connected'),
       onmessage: (e: any) => handleMessage(JSON.parse(e.data)),
       onreconnect: () => console.log('Reconnecting...'),
