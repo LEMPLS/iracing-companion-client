@@ -24,4 +24,3 @@ export function isTelemetryMessage(arg: any): arg is TelemetryMessage {
 export function isLineCrossMessage(arg: any): arg is LineCrossMessage {
   return arg.type === MessageTypes.MESSAGE_TYPE_CROSS_LINE;
 }
-

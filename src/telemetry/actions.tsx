@@ -20,21 +20,19 @@ export interface LineCrossPayload {
 }
 
 export const telemetryActions = {
-  showLineCrossInfo: createAction('LINE_CROSS_INFO_SHOW')<
-    LineCrossPayload
-  >(),
+  showLineCrossInfo: createAction('LINE_CROSS_INFO_SHOW')<LineCrossPayload>(),
   hideLineCrossInfo: createAction('LINE_CROSS_INFO_HIDE')(),
-  updateTelemetryValues: createAction('TELEMETRY_UPDATE')<
-    TelemetryPayload
-  >(),
+  updateTelemetryValues: createAction('TELEMETRY_UPDATE')<TelemetryPayload>(),
 };
 
-export const lineCross: ActionCreator<ThunkAction<any, RootState, undefined, Action>> = (
-  payload: LineCrossPayload,
-) =>
-  (dispatch: Dispatch): Action => {
-    setTimeout (() => dispatch(telemetryActions.hideLineCrossInfo()), 3000);
-    return dispatch(telemetryActions.showLineCrossInfo(payload));
-  };
+export const lineCross: ActionCreator<ThunkAction<
+  any,
+  RootState,
+  undefined,
+  Action
+>> = (payload: LineCrossPayload) => (dispatch: Dispatch): Action => {
+  setTimeout(() => dispatch(telemetryActions.hideLineCrossInfo()), 3000);
+  return dispatch(telemetryActions.showLineCrossInfo(payload));
+};
 
 export type TelemetryAction = ActionType<typeof telemetryActions>;

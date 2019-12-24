@@ -8,7 +8,11 @@ export interface DrivingScreenPanelProps {
   className?: string;
 }
 
-export const Panel: React.SFC<DrivingScreenPanelProps> = ({ title, value, className }) => (
+export const Panel: React.SFC<DrivingScreenPanelProps> = ({
+  title,
+  value,
+  className,
+}) => (
   <PanelBase className={className}>
     <div className="panel-title">{title}</div>
     <div className="panel-value">{value}</div>

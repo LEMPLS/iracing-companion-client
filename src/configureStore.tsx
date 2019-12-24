@@ -3,7 +3,9 @@ import thunk from 'redux-thunk';
 import { rootReducer, RootState } from './rootReducer';
 
 declare global {
-  interface Window { __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any; }
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;
+  }
 }
 
 const composeEnhancers =
