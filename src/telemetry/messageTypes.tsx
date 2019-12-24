@@ -1,8 +1,5 @@
-import { LineCrossPayload, TelemetryPayload } from './actions';
-
 export enum MessageTypes {
   MESSAGE_TYPE_TELEMETRY = 1,
-  MESSAGE_TYPE_CROSS_LINE = 2,
 }
 
 export type TelemetryMessage = {
@@ -10,17 +7,18 @@ export type TelemetryMessage = {
   payload: TelemetryPayload;
 };
 
-export type LineCrossMessage = {
-  type: MessageTypes.MESSAGE_TYPE_CROSS_LINE;
-  payload: LineCrossPayload;
+export type TelemetryPayload = {
+  SessionLapsRemain?: number;
+  LapsToPit?: number;
+  WaterTemp?: number;
+  OilTemp?: number;
+  LapCompletedSincePit?: number;
+  RaceLapsRemaining?: number;
+  RPM?: number;
 };
 
-export type Message = TelemetryMessage | LineCrossMessage;
+export type Message = TelemetryMessage;
 
 export function isTelemetryMessage(arg: any): arg is TelemetryMessage {
   return arg.type === MessageTypes.MESSAGE_TYPE_TELEMETRY;
-}
-
-export function isLineCrossMessage(arg: any): arg is LineCrossMessage {
-  return arg.type === MessageTypes.MESSAGE_TYPE_CROSS_LINE;
 }

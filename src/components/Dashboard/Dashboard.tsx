@@ -1,79 +1,38 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
+import React, { FC, useEffect, useState } from 'react';
 import Sockette from 'sockette';
-import { RootState } from '../../rootReducer';
-import { lineCross, telemetryActions } from '../../telemetry/actions';
-import {
-  isLineCrossMessage,
-  isTelemetryMessage,
-  Message,
-} from '../../telemetry/messageTypes';
-import {
-  getTelemetryState,
-  getValues,
-  showLineCrossInfo,
-} from '../../telemetry/selectors';
-import { CrossLineScreen } from './CrossLineScreen/CrossLineScreen';
-import { DrivingScreen } from './DrivingScreen/DrivingScreen';
 
 import './Dashboard.css';
+import { isTelemetryMessage, Message } from '../../telemetry/messageTypes';
 
-export interface DashboardProps {
-  updateTelemetryValues: typeof telemetryActions.updateTelemetryValues;
-  lineCross: typeof lineCross;
-  SessionLapsRemain?: number;
-  LapsToPit?: number;
-  showLineCrossInfo: boolean;
-}
+export const Dashboard: FC = () => {
+  const [rpm, setRpm] = useState(0);
 
-class DashboardBase extends React.Component<DashboardProps, {}> {
-  constructor(props: DashboardProps) {
-    super(props);
-    this.handleMessage = this.handleMessage.bind(this);
-  }
-
-  public componentDidMount() {
-    return new Sockette('ws://localhost:8080', {
-      // onopen: console.log,
-      onmessage: (e: any) => this.handleMessage(JSON.parse(e.data)),
-      // onreconnect: e => console.log('Reconnecting...', e),
-      // onmaximum: e => console.log('Stop Attempting!', e),
-      // onclose: e => console.log('Closed!', e),
-      // onerror: e => console.log('Error:', e),
+  useEffect(() => {
+    new Sockette('ws://46.13.50.98:3001', {
+      onopen: () => console.log('Connected'),
+      onmessage: (e: any) => handleMessage(JSON.parse(e.data)),
+      onreconnect: () => console.log('Reconnecting...'),
+      onmaximum: () => console.warn('Stop attempting'),
+      onclose: () => console.log('Connection closed'),
+      onerror: (e: any) => console.error('Error:', e),
     });
-  }
+  }, []);
 
-  public handleMessage(message: Message) {
-    const { updateTelemetryValues, lineCross } = this.props;
-
+  const handleMessage = (message: Message) => {
     if (isTelemetryMessage(message)) {
-      updateTelemetryValues(message.payload);
-    } else if (isLineCrossMessage(message)) {
-      lineCross(message.payload);
+      setRpm(message.payload.RPM ?? 0);
     }
-  }
-
-  public render() {
-    const { showLineCrossInfo } = this.props;
-    return (
-      <div className="Dashboard">
-        {showLineCrossInfo ? <CrossLineScreen /> : <DrivingScreen />}
-      </div>
-    );
-  }
-}
-
-function mapStateToProps(state: RootState) {
-  const telemetryState = getTelemetryState(state);
-  const { SessionLapsRemain, LapsToPit } = getValues(telemetryState);
-  return {
-    LapsToPit,
-    SessionLapsRemain,
-    showLineCrossInfo: showLineCrossInfo(telemetryState),
   };
-}
 
-export const Dashboard = connect(mapStateToProps, {
-  lineCross,
-  updateTelemetryValues: telemetryActions.updateTelemetryValues,
-})(DashboardBase);
+  return (
+    <div className="Dashboard">
+      <div
+        style={{
+          width: `${rpm / 100}%`,
+          height: 50,
+          backgroundColor: 'red',
+        }}
+      />
+    </div>
+  );
+};

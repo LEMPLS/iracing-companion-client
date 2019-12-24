@@ -3,6 +3,8 @@
 /build/
 /build_app/
 /dist/
+/.pnp
+.pnp.js
 .DS_Store
 .env.local
 .env.development.local
