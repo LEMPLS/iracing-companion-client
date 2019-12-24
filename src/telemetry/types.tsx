@@ -1,9 +1,9 @@
-export enum MessageTypes {
+export enum Types {
   MESSAGE_TYPE_TELEMETRY = 1,
 }
 
 export type TelemetryMessage = {
-  type: MessageTypes.MESSAGE_TYPE_TELEMETRY;
+  type: Types.MESSAGE_TYPE_TELEMETRY;
   payload: TelemetryPayload;
 };
 

@@ -1,40 +1,31 @@
-import React, { FC, useEffect, useState } from 'react';
-import Sockette from 'sockette';
+import React, { FC } from 'react';
 
-import { Message, MessageTypes } from '../../telemetry/messageTypes';
+import { useTelemetry } from '../../telemetry/useTelemetry';
 
 import { Dashboard } from './Dashboard';
+import { Loading } from '../Loading';
 
-export const DashboardContainer: FC = () => {
-  const [rpm, setRpm] = useState(0);
+type Props = {
+  onSwitchTheme: () => void;
+};
 
-  useEffect(() => {
-    const { SERVER_ADDRESS = 'localhost', SERVER_PORT = 3001 } = process.env;
+export const DashboardContainer: FC<Props> = ({ onSwitchTheme }) => {
+  const [telemetry, isLoading] = useTelemetry();
 
-    new Sockette(`ws://${SERVER_ADDRESS}:${SERVER_PORT}`, {
-      onopen: () => console.log('Connected'),
-      onmessage: (e: any) => handleMessage(JSON.parse(e.data)),
-      onreconnect: () => console.log('Reconnecting...'),
-      onmaximum: () => console.warn('Stop attempting'),
-      onclose: () => console.log('Connection closed'),
-      onerror: (e: any) => console.error('Error:', e),
-    });
-  }, []);
-
-  const handleMessage = ({ type, payload }: Message) => {
-    switch (type) {
-      case MessageTypes.MESSAGE_TYPE_TELEMETRY:
-        setRpm(payload.RPM ?? 0);
-        break;
-      default:
-    }
-  };
+  if (isLoading) {
+    return (
+      <Dashboard>
+        <Loading />
+      </Dashboard>
+    );
+  }
 
   return (
     <Dashboard>
+      <div onClick={onSwitchTheme}>Switch theme</div>
       <div
         style={{
-          width: `${rpm / 100}%`,
+          width: `${telemetry.RPM / 100}%`,
           height: 50,
           backgroundColor: 'red',
         }}
