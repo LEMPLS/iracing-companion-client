@@ -1,10 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
 import Sockette from 'sockette';
 
-import './Dashboard.css';
-import { isTelemetryMessage, Message } from '../../telemetry/messageTypes';
+import { Message, MessageTypes } from '../../telemetry/messageTypes';
 
-export const Dashboard: FC = () => {
+import { Dashboard } from './Dashboard';
+
+export const DashboardContainer: FC = () => {
   const [rpm, setRpm] = useState(0);
 
   useEffect(() => {
@@ -18,14 +19,17 @@ export const Dashboard: FC = () => {
     });
   }, []);
 
-  const handleMessage = (message: Message) => {
-    if (isTelemetryMessage(message)) {
-      setRpm(message.payload.RPM ?? 0);
+  const handleMessage = ({ type, payload }: Message) => {
+    switch (type) {
+      case MessageTypes.MESSAGE_TYPE_TELEMETRY:
+        setRpm(payload.RPM ?? 0);
+        break;
+      default:
     }
   };
 
   return (
-    <div className="Dashboard">
+    <Dashboard>
       <div
         style={{
           width: `${rpm / 100}%`,
@@ -33,6 +37,6 @@ export const Dashboard: FC = () => {
           backgroundColor: 'red',
         }}
       />
-    </div>
+    </Dashboard>
   );
 };

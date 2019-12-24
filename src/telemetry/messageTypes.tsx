@@ -8,17 +8,13 @@ export type TelemetryMessage = {
 };
 
 export type TelemetryPayload = {
-  SessionLapsRemain?: number;
-  LapsToPit?: number;
-  WaterTemp?: number;
-  OilTemp?: number;
-  LapCompletedSincePit?: number;
-  RaceLapsRemaining?: number;
-  RPM?: number;
+  SessionLapsRemain: number;
+  LapsToPit: number;
+  WaterTemp: number;
+  OilTemp: number;
+  LapCompletedSincePit: number;
+  RaceLapsRemaining: number;
+  RPM: number;
 };
 
 export type Message = TelemetryMessage;
-
-export function isTelemetryMessage(arg: any): arg is TelemetryMessage {
-  return arg.type === MessageTypes.MESSAGE_TYPE_TELEMETRY;
-}

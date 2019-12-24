@@ -1,9 +1,7 @@
 import * as React from 'react';
 
-import { Dashboard } from './components/Dashboard/Dashboard';
+import { DashboardContainer } from './components/Dashboard/DashboardContainer';
 
-import './App.css';
-
-const App: React.FC = () => <Dashboard />;
+const App: React.FC = () => <DashboardContainer />;
 
 export default App;
