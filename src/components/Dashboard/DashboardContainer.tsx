@@ -22,14 +22,9 @@ export const DashboardContainer: FC<Props> = ({ onSwitchTheme }) => {
 
   return (
     <Dashboard>
-      <div onClick={onSwitchTheme}>Switch theme</div>
-      <div
-        style={{
-          width: `${telemetry.RPM / 100}%`,
-          height: 50,
-          backgroundColor: 'red',
-        }}
-      />
+      <div style={{
+        fontSize: '100px',
+      }}>{telemetry.GapToAhead ? telemetry.GapToAhead.toFixed(2) : '-'}</div>
     </Dashboard>
   );
 };

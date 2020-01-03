@@ -15,6 +15,7 @@ export type TelemetryPayload = {
   LapCompletedSincePit: number;
   RaceLapsRemaining: number;
   RPM: number;
+  GapToAhead: number;
 };
 
 export type Message = TelemetryMessage;

@@ -13,6 +13,7 @@ export const useTelemetry = (): [TelemetryPayload, boolean] => {
     LapCompletedSincePit: 0,
     RaceLapsRemaining: 0,
     RPM: 0,
+    GapToAhead: 0,
   });
 
   useEffect(() => {
